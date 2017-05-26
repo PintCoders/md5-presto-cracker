@@ -32,6 +32,10 @@ public class CrackerRecordCursor implements RecordCursor
     {
         this.candidateRangeSize = candidateRangeSize;
         /** OPTIONAL **/
+
+        CrackerUtil.transformDecToBase36(candidateRangeBegin, candidateChars);
+        candidatePassword = CrackerUtil.transformIntoStr(candidateChars);
+        count = 1;
     }
 
     @Override
@@ -62,7 +66,15 @@ public class CrackerRecordCursor implements RecordCursor
     public synchronized boolean advanceNextPosition()
     {
         /** COMPLETE **/
-        return false;
+        if (count == candidateRangeSize) {
+            return false;
+        }
+
+        CrackerUtil.getNextCandidate(candidateChars);
+        candidatePassword = CrackerUtil.transformIntoStr(candidateChars);
+        count++;
+
+        return true;
     }
 
     @Override

@@ -59,17 +59,39 @@ public class CrackerUtil
 
     public static void transformDecToBase36(long numInDec, int[] numArrayInBase36)
     {
-        /** COMPLETE **/
+        long quotient = numInDec;
+        int passwdlength = numArrayInBase36.length - 1;
+
+        for (int i = passwdlength; quotient > 0L; i--) {
+            int reminder = (int) (quotient % 36L);
+            quotient /= 36L;
+            numArrayInBase36[i] = reminder;
+        }
     }
 
     public static void getNextCandidate(int[] candidateChars)
     {
-        /** OPTIONAL **/
+        int i = candidateChars.length - 1;
+
+        while (i >= 0) {
+            candidateChars[i] += 1;
+
+            if (candidateChars[i] >= 36) {
+                candidateChars[i] = 0;
+                i--;
+            }
+            else {
+                break;
+            }
+        }
     }
 
     public static String transformIntoStr(int[] chars)
     {
-        /** COMPLETE **/
-        return null;
+        char[] password = new char[PASSWORD_LEN];
+        for (int i = 0; i < password.length; i++) {
+            password[i] = PASSWORD_CHARS.charAt(chars[i]);
+        }
+        return new String(password);
     }
 }
